@@ -1,18 +1,16 @@
 import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 
-function Dashboard() {
+function AdminDashboard() {
   const navigate = useNavigate();
 
-  const user = useMemo(() => {
+  const admin = useMemo(() => {
     try {
-      return JSON.parse(localStorage.getItem("user")) || {};
+      return JSON.parse(localStorage.getItem("admin")) || {};
     } catch {
       return {};
     }
   }, []);
-
-  const firstName = user.name?.split(" ")[0] || "there";
 
   const handleLogout = () => {
     localStorage.removeItem("loggedIn");
@@ -30,6 +28,10 @@ function Dashboard() {
           <span>PlacementPilot</span>
         </div>
 
+        <div className="admin-sidebar-label">
+          ADMIN PORTAL
+        </div>
+
         <nav className="dashboard-nav">
 
           <button className="dashboard-nav-item active">
@@ -39,23 +41,31 @@ function Dashboard() {
 
           <button
             className="dashboard-nav-item"
-            onClick={() => navigate("/applications")}
+            onClick={() => navigate("/admin/users")}
+          >
+            <span>◎</span>
+            User Management
+          </button>
+
+          <button
+            className="dashboard-nav-item"
+            onClick={() => navigate("/admin/jobs")}
           >
             <span>▣</span>
+            Job Management
+          </button>
+
+          <button
+            className="dashboard-nav-item"
+            onClick={() => navigate("/admin/applications")}
+          >
+            <span>◈</span>
             Applications
           </button>
 
           <button
             className="dashboard-nav-item"
-            onClick={() => navigate("/preparation")}
-          >
-            <span>◈</span>
-            Preparation
-          </button>
-
-          <button
-            className="dashboard-nav-item"
-            onClick={() => navigate("/analytics")}
+            onClick={() => navigate("/admin/analytics")}
           >
             <span>◒</span>
             Analytics
@@ -63,10 +73,10 @@ function Dashboard() {
 
           <button
             className="dashboard-nav-item"
-            onClick={() => navigate("/profile")}
+            onClick={() => navigate("/admin/settings")}
           >
-            <span>◎</span>
-            Profile
+            <span>⚙</span>
+            Settings
           </button>
 
         </nav>
@@ -76,8 +86,8 @@ function Dashboard() {
           <div className="dashboard-sidebar-tip">
             <div className="tip-icon">✦</div>
             <div>
-              <strong>Stay consistent.</strong>
-              <p>Small progress every day leads to big results.</p>
+              <strong>Admin workspace</strong>
+              <p>Manage your placement platform efficiently.</p>
             </div>
           </div>
 
@@ -100,16 +110,16 @@ function Dashboard() {
 
           <div>
             <p className="dashboard-eyebrow">
-              YOUR PLACEMENT COMMAND CENTER
+              ADMINISTRATION CENTER
             </p>
 
             <h1>
-              Good morning, {firstName}
+              Welcome back, {admin.name || "Admin"}
               <span className="heading-star">✦</span>
             </h1>
 
             <p className="dashboard-subtitle">
-              Here’s what’s happening with your placement journey today.
+              Manage users, applications, and placement activities.
             </p>
           </div>
 
@@ -123,8 +133,8 @@ function Dashboard() {
               ♢
             </button>
 
-            <div className="dashboard-avatar">
-              {firstName.charAt(0).toUpperCase()}
+            <div className="dashboard-avatar admin-avatar">
+              A
             </div>
 
           </div>
@@ -135,32 +145,32 @@ function Dashboard() {
         <section className="dashboard-stats">
 
           <div className="dashboard-stat-card">
-            <div className="dashboard-stat-icon blue">▣</div>
+            <div className="dashboard-stat-icon blue">◎</div>
 
             <div>
-              <p>Applications</p>
+              <p>Total Users</p>
               <h2>0</h2>
-              <span>Start tracking your applications</span>
+              <span>Registered students</span>
             </div>
           </div>
 
           <div className="dashboard-stat-card">
-            <div className="dashboard-stat-icon purple">◈</div>
+            <div className="dashboard-stat-icon purple">▣</div>
 
             <div>
-              <p>Preparation streak</p>
-              <h2>0 <small>days</small></h2>
-              <span>Build your daily habit</span>
+              <p>Total Applications</p>
+              <h2>0</h2>
+              <span>Applications submitted</span>
             </div>
           </div>
 
           <div className="dashboard-stat-card">
-            <div className="dashboard-stat-icon green">✓</div>
+            <div className="dashboard-stat-icon green">◈</div>
 
             <div>
-              <p>Tasks completed</p>
-              <h2>0%</h2>
-              <span>Keep moving forward</span>
+              <p>Active Jobs</p>
+              <h2>0</h2>
+              <span>Available opportunities</span>
             </div>
           </div>
 
@@ -174,8 +184,8 @@ function Dashboard() {
             <div className="dashboard-panel-header">
 
               <div>
-                <p className="panel-kicker">YOUR OVERVIEW</p>
-                <h2>Placement progress</h2>
+                <p className="panel-kicker">PLATFORM OVERVIEW</p>
+                <h2>Placement activity</h2>
               </div>
 
               <button className="dashboard-text-button">
@@ -184,28 +194,18 @@ function Dashboard() {
 
             </div>
 
-            <div className="dashboard-progress-content">
+            <div className="admin-overview-content">
 
-              <div className="dashboard-progress-ring">
-                <div>
-                  <strong>0%</strong>
-                  <span>Complete</span>
-                </div>
+              <div className="admin-overview-icon">
+                ◒
               </div>
 
-              <h3>Your journey starts here</h3>
+              <h3>No activity yet</h3>
 
               <p>
-                Add your first application or preparation task
-                to see your progress.
+                Platform statistics and placement activity
+                will appear here as students use PlacementPilot.
               </p>
-
-              <button
-                className="dashboard-primary-button"
-                onClick={() => navigate("/applications")}
-              >
-                ＋ Add application
-              </button>
 
             </div>
 
@@ -217,34 +217,45 @@ function Dashboard() {
             <div className="dashboard-panel-header">
 
               <div>
-                <p className="panel-kicker">UPCOMING</p>
-                <h2>Upcoming tasks</h2>
+                <p className="panel-kicker">MANAGEMENT</p>
+                <h2>Quick access</h2>
               </div>
-
-              <button className="dashboard-text-button">
-                View all →
-              </button>
 
             </div>
 
-            <div className="dashboard-empty-content">
-
-              <div className="dashboard-empty-icon">
-                ✓
-              </div>
-
-              <h3>No tasks yet</h3>
-
-              <p>
-                Your upcoming interviews, tests, and preparation
-                tasks will appear here.
-              </p>
+            <div className="admin-management-list">
 
               <button
-                className="dashboard-secondary-button"
-                onClick={() => navigate("/preparation")}
+                onClick={() => navigate("/admin/users")}
               >
-                ＋ Create task
+                <span className="quick-action-icon blue">◎</span>
+                <div>
+                  <strong>Manage users</strong>
+                  <small>View and manage student accounts</small>
+                </div>
+                <b>→</b>
+              </button>
+
+              <button
+                onClick={() => navigate("/admin/jobs")}
+              >
+                <span className="quick-action-icon purple">▣</span>
+                <div>
+                  <strong>Manage job listings</strong>
+                  <small>Add and update opportunities</small>
+                </div>
+                <b>→</b>
+              </button>
+
+              <button
+                onClick={() => navigate("/admin/applications")}
+              >
+                <span className="quick-action-icon green">◈</span>
+                <div>
+                  <strong>View applications</strong>
+                  <small>Monitor student applications</small>
+                </div>
+                <b>→</b>
               </button>
 
             </div>
@@ -259,7 +270,7 @@ function Dashboard() {
           <div className="dashboard-panel-header">
 
             <div>
-              <p className="panel-kicker">GET STARTED</p>
+              <p className="panel-kicker">ADMIN TOOLS</p>
               <h2>Quick actions</h2>
             </div>
 
@@ -269,13 +280,13 @@ function Dashboard() {
 
             <button
               className="dashboard-quick-action"
-              onClick={() => navigate("/applications")}
+              onClick={() => navigate("/admin/users")}
             >
-              <div className="quick-action-icon blue">▣</div>
+              <div className="quick-action-icon blue">◎</div>
 
               <div className="quick-action-text">
-                <strong>Track an application</strong>
-                <span>Save a job and monitor its status</span>
+                <strong>User management</strong>
+                <span>Manage registered student accounts</span>
               </div>
 
               <span className="quick-action-arrow">→</span>
@@ -283,13 +294,13 @@ function Dashboard() {
 
             <button
               className="dashboard-quick-action"
-              onClick={() => navigate("/preparation")}
+              onClick={() => navigate("/admin/jobs")}
             >
-              <div className="quick-action-icon purple">◈</div>
+              <div className="quick-action-icon purple">▣</div>
 
               <div className="quick-action-text">
-                <strong>Plan preparation</strong>
-                <span>Create a focused study task</span>
+                <strong>Job management</strong>
+                <span>Create and manage job opportunities</span>
               </div>
 
               <span className="quick-action-arrow">→</span>
@@ -297,13 +308,13 @@ function Dashboard() {
 
             <button
               className="dashboard-quick-action"
-              onClick={() => navigate("/profile")}
+              onClick={() => navigate("/admin/analytics")}
             >
-              <div className="quick-action-icon green">◎</div>
+              <div className="quick-action-icon green">◒</div>
 
               <div className="quick-action-text">
-                <strong>Complete your profile</strong>
-                <span>Add details to personalize your workspace</span>
+                <strong>View analytics</strong>
+                <span>Monitor platform performance</span>
               </div>
 
               <span className="quick-action-arrow">→</span>
@@ -319,4 +330,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default AdminDashboard;
