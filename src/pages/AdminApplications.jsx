@@ -1,18 +1,4 @@
-import { useNavigate } from "react-router-dom";
-
-function AdminApplications() {
-  const navigate = useNavigate();
-
-  return (
-    <main className="dashboard-main">
-      <h1>Admin Applications</h1>
-      <p>Manage student job applications here.</p>
-
-      <button onClick={() => navigate("/admin")}>
-        Back to Admin Dashboard
-      </button>
-    </main>
-  );
-}
-
-export default AdminApplications;
+import { useMemo } from "react";
+import Sidebar from "../components/Sidebar";
+import Navbar from "../components/Navbar";
+export default function AdminApplications() { const applications = useMemo(() => { try { return JSON.parse(localStorage.getItem("applications") || "[]"); } catch { return []; } }, []); return <div className="dashboard-page"><Sidebar admin /><main className="dashboard-main"><Navbar admin /><section className="page-toolbar"><div><p className="panel-kicker">ADMINISTRATION</p><h2>Application management</h2><p className="dashboard-subtitle">Review student applications and their current status.</p></div></section><section className="dashboard-panel"><div className="dashboard-panel-header"><div><p className="panel-kicker">APPLICATION RECORDS</p><h2>All applications</h2></div></div>{applications.length ? <div className="data-table-wrap"><table className="data-table"><thead><tr><th>Student</th><th>Company</th><th>Role</th><th>Status</th></tr></thead><tbody>{applications.map((a, i) => <tr key={i}><td>{a.student || "Student"}</td><td>{a.company}</td><td>{a.role}</td><td><span className="status-badge status-active">{a.status || "Applied"}</span></td></tr>)}</tbody></table></div> : <div className="empty-state"><span>▣</span><h3>No applications yet</h3><p>Student applications will appear here.</p></div>}</section></main></div>; }
