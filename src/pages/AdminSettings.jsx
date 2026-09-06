@@ -1,18 +1,4 @@
-import { useNavigate } from "react-router-dom";
-
-function AdminSettings() {
-  const navigate = useNavigate();
-
-  return (
-    <main className="dashboard-main">
-      <h1>Admin Settings</h1>
-      <p>Manage platform settings here.</p>
-
-      <button onClick={() => navigate("/admin")}>
-        Back to Admin Dashboard
-      </button>
-    </main>
-  );
-}
-
-export default AdminSettings;
+import { useState } from "react";
+import Sidebar from "../components/Sidebar";
+import Navbar from "../components/Navbar";
+export default function AdminSettings() { const [saved, setSaved] = useState(false); const [settings, setSettings] = useState(() => JSON.parse(localStorage.getItem("adminSettings") || '{"portalName":"PlacementPilot","email":"admin@placementpilot.com","notifications":true}')); const update = (e) => setSettings({...settings, [e.target.name]: e.target.type === "checkbox" ? e.target.checked : e.target.value}); const submit = (e) => { e.preventDefault(); localStorage.setItem("adminSettings", JSON.stringify(settings)); setSaved(true); setTimeout(() => setSaved(false), 2000); }; return <div className="dashboard-page"><Sidebar admin /><main className="dashboard-main"><Navbar admin /><section className="page-toolbar"><div><p className="panel-kicker">ADMINISTRATION</p><h2>Portal settings</h2><p className="dashboard-subtitle">Configure your placement platform preferences.</p></div></section>{saved && <div className="success-message">Settings saved successfully.</div>}<form className="dashboard-panel settings-form" onSubmit={submit}><p className="panel-kicker">GENERAL SETTINGS</p><h2>Workspace preferences</h2><label>Portal name<input name="portalName" value={settings.portalName} onChange={update} /></label><label>Admin email<input name="email" type="email" value={settings.email} onChange={update} /></label><label className="checkbox-row"><input name="notifications" type="checkbox" checked={settings.notifications} onChange={update} /> Enable admin notifications</label><button className="dashboard-primary-button">Save settings</button></form></main></div>; }
