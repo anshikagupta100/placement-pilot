@@ -1,18 +1,6 @@
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import Sidebar from "../components/Sidebar";
+import Navbar from "../components/Navbar";
 
-function AdminJobs() {
-  const navigate = useNavigate();
-
-  return (
-    <main className="dashboard-main">
-      <h1>Admin Jobs</h1>
-      <p>Manage job listings here.</p>
-
-      <button onClick={() => navigate("/admin")}>
-        Back to Admin Dashboard
-      </button>
-    </main>
-  );
-}
-
-export default AdminJobs;
+const initialJobs = [{ id: 1, company: "Google", role: "Software Engineer", location: "Bengaluru", type: "Full-time" }, { id: 2, company: "Microsoft", role: "Frontend Developer", location: "Hyderabad", type: "Internship" }, { id: 3, company: "Deloitte", role: "Analyst", location: "Pune", type: "Full-time" }];
+export default function AdminJobs() { const [jobs, setJobs] = useState(() => JSON.parse(localStorage.getItem("jobs") || "null") || initialJobs); const [form, setForm] = useState({ company: "", role: "", location: "", type: "Full-time" }); useEffect(() => localStorage.setItem("jobs", JSON.stringify(jobs)), [jobs]); const add = (e) => { e.preventDefault(); if (!form.company || !form.role) return; setJobs([...jobs, { ...form, id: Date.now() }]); setForm({ company: "", role: "", location: "", type: "Full-time" }); }; return <div className="dashboard-page"><Sidebar admin /><main className="dashboard-main"><Navbar admin /><section className="page-toolbar"><div><p className="panel-kicker">ADMINISTRATION</p><h2>Job management</h2><p className="dashboard-subtitle">Create and manage placement opportunities.</p></div></section><section className="dashboard-panel"><div className="dashboard-panel-header"><div><p className="panel-kicker">NEW OPPORTUNITY</p><h2>Add a job</h2></div></div><form className="inline-form" onSubmit={add}><input placeholder="Company" value={form.company} onChange={(e) => setForm({ ...form, company: e.target.value })} /><input placeholder="Job role" value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value })} /><input placeholder="Location" value={form.location} onChange={(e) => setForm({ ...form, location: e.target.value })} /><select value={form.type} onChange={(e) => setForm({ ...form, type: e.target.value })}><option>Full-time</option><option>Internship</option></select><button className="dashboard-primary-button">Add job</button></form></section><section className="dashboard-panel"><div className="dashboard-panel-header"><div><p className="panel-kicker">OPPORTUNITIES</p><h2>Active job listings</h2></div></div><div className="data-table-wrap"><table className="data-table"><thead><tr><th>Company</th><th>Role</th><th>Location</th><th>Type</th><th>Action</th></tr></thead><tbody>{jobs.map((job) => <tr key={job.id}><td>{job.company}</td><td>{job.role}</td><td>{job.location || "—"}</td><td>{job.type}</td><td><button className="table-action" onClick={() => setJobs(jobs.filter((item) => item.id !== job.id))}>Delete</button></td></tr>)}</tbody></table></div></section></main></div>; }
