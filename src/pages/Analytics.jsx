@@ -1,181 +1,138 @@
 import { useNavigate } from "react-router-dom";
-<<<<<<< HEAD
 
 function Analytics() {
   const navigate = useNavigate();
 
-  const applications =
-    JSON.parse(localStorage.getItem("applications")) || [];
-
-  const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-
-  const interviews = applications.filter(
-    (application) => application.status === "Interview"
-  ).length;
-
-  const selected = applications.filter(
-    (application) => application.status === "Selected"
-  ).length;
-
-  const completedTasks = tasks.filter((task) => task.completed).length;
-
-  const preparationProgress = tasks.length
-    ? Math.round((completedTasks / tasks.length) * 100)
-    : 0;
-
-  const logout = () => {
-    localStorage.clear();
-    navigate("/login");
-  };
+  const stats = [
+    {
+      title: "Applications Sent",
+      value: "12",
+      description: "Total applications submitted",
+    },
+    {
+      title: "Interviews",
+      value: "4",
+      description: "Interviews scheduled",
+    },
+    {
+      title: "Shortlisted",
+      value: "3",
+      description: "Companies shortlisted you",
+    },
+    {
+      title: "Offers Received",
+      value: "1",
+      description: "Successful applications",
+    },
+  ];
 
   return (
-    <div className="dashboard-page">
-      <aside className="dashboard-sidebar">
-        <div className="dashboard-brand">
-          <div className="dashboard-brand-icon">✦</div>
-          <span>PlacementPilot</span>
+    <main className="dashboard-main">
+      <div className="dashboard-header">
+        <div>
+          <h1>Analytics</h1>
+          <p>Track your placement progress and application performance.</p>
         </div>
 
-        <nav className="dashboard-nav">
-          <button
-            className="dashboard-nav-item"
-            onClick={() => navigate("/dashboard")}
-          >
-            <span>⌂</span>
-            Dashboard
-          </button>
+        <button
+          className="dashboard-btn"
+          onClick={() => navigate("/dashboard")}
+        >
+          Back to Dashboard
+        </button>
+      </div>
 
-          <button
-            className="dashboard-nav-item"
-            onClick={() => navigate("/applications")}
-          >
-            <span>▣</span>
-            Applications
-          </button>
+      <section className="stats-grid">
+        {stats.map((stat) => (
+          <div className="stat-card" key={stat.title}>
+            <h3>{stat.title}</h3>
+            <h2>{stat.value}</h2>
+            <p>{stat.description}</p>
+          </div>
+        ))}
+      </section>
 
-          <button
-            className="dashboard-nav-item"
-            onClick={() => navigate("/preparation")}
-          >
-            <span>◈</span>
-            Preparation
-          </button>
+      <section className="analytics-section">
+        <div className="analytics-card">
+          <h2>Application Overview</h2>
+          <p className="analytics-subtitle">
+            Your current placement activity
+          </p>
 
-          <button className="dashboard-nav-item active">
-            <span>◒</span>
-            Analytics
-          </button>
+          <div className="progress-item">
+            <div className="progress-label">
+              <span>Applications</span>
+              <strong>12</strong>
+            </div>
+            <div className="progress-bar">
+              <div className="progress-fill" style={{ width: "80%" }}></div>
+            </div>
+          </div>
 
-          <button
-            className="dashboard-nav-item"
-            onClick={() => navigate("/profile")}
-          >
-            <span>◎</span>
-            Profile
-          </button>
-        </nav>
+          <div className="progress-item">
+            <div className="progress-label">
+              <span>Interviews</span>
+              <strong>4</strong>
+            </div>
+            <div className="progress-bar">
+              <div className="progress-fill" style={{ width: "45%" }}></div>
+            </div>
+          </div>
 
-        <div className="dashboard-sidebar-bottom">
-          <button className="dashboard-logout" onClick={logout}>
-            <span>↪</span>
-            Log out
-          </button>
+          <div className="progress-item">
+            <div className="progress-label">
+              <span>Shortlisted</span>
+              <strong>3</strong>
+            </div>
+            <div className="progress-bar">
+              <div className="progress-fill" style={{ width: "30%" }}></div>
+            </div>
+          </div>
+
+          <div className="progress-item">
+            <div className="progress-label">
+              <span>Offers</span>
+              <strong>1</strong>
+            </div>
+            <div className="progress-bar">
+              <div className="progress-fill" style={{ width: "15%" }}></div>
+            </div>
+          </div>
         </div>
-      </aside>
 
-      <main className="dashboard-main">
-        <header className="dashboard-header">
-          <div>
-            <p className="dashboard-eyebrow">PROGRESS INSIGHTS</p>
-            <h1>Analytics</h1>
-            <p className="dashboard-subtitle">
-              Understand your placement progress.
-            </p>
-          </div>
-        </header>
+        <div className="analytics-card">
+          <h2>Placement Insights</h2>
+          <p className="analytics-subtitle">
+            A quick summary of your progress
+          </p>
 
-        <section className="dashboard-stats">
-          <div className="dashboard-stat-card">
-            <div className="dashboard-stat-icon blue">▣</div>
+          <div className="insight-item">
+            <span className="insight-icon">📊</span>
             <div>
-              <p>Total applications</p>
-              <h2>{applications.length}</h2>
-              <span>Tracked applications</span>
+              <h3>Application Activity</h3>
+              <p>Keep applying consistently to improve your chances.</p>
             </div>
           </div>
 
-          <div className="dashboard-stat-card">
-            <div className="dashboard-stat-icon purple">◈</div>
+          <div className="insight-item">
+            <span className="insight-icon">🎯</span>
             <div>
-              <p>Interviews</p>
-              <h2>{interviews}</h2>
-              <span>Interview opportunities</span>
+              <h3>Interview Preparation</h3>
+              <p>Focus on preparation to convert interviews into offers.</p>
             </div>
           </div>
 
-          <div className="dashboard-stat-card">
-            <div className="dashboard-stat-icon green">✓</div>
+          <div className="insight-item">
+            <span className="insight-icon">🚀</span>
             <div>
-              <p>Selected</p>
-              <h2>{selected}</h2>
-              <span>Successful applications</span>
+              <h3>Keep Growing</h3>
+              <p>Continue building skills and tracking your progress.</p>
             </div>
           </div>
-        </section>
-
-        <section className="dashboard-content-grid">
-          <div className="dashboard-panel page-panel">
-            <p className="panel-kicker">APPLICATION STATUS</p>
-            <h2>Application overview</h2>
-
-            <div className="analytics-list">
-              {[
-                "Applied",
-                "Shortlisted",
-                "Interview",
-                "Selected",
-                "Rejected",
-              ].map((status) => {
-                const count = applications.filter(
-                  (application) => application.status === status
-                ).length;
-
-                return (
-                  <div className="analytics-row" key={status}>
-                    <span>{status}</span>
-                    <strong>{count}</strong>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          <div className="dashboard-panel page-panel">
-            <p className="panel-kicker">PREPARATION PROGRESS</p>
-            <h2>Task completion</h2>
-
-            <div className="analytics-progress">
-              <div
-                className="analytics-progress-bar"
-                style={{ width: `${preparationProgress}%` }}
-              />
-            </div>
-
-            <h3>{preparationProgress}% completed</h3>
-
-            <p>
-              Complete your preparation tasks regularly to improve your
-              placement readiness.
-            </p>
-          </div>
-        </section>
-      </main>
-    </div>
+        </div>
+      </section>
+    </main>
   );
 }
 
 export default Analytics;
-=======
-function Analytics() { const navigate = useNavigate(); return <main className="dashboard-main"><h1>Analytics</h1><p>View your placement progress and insights.</p><button onClick={() => navigate("/dashboard")}>Back to Dashboard</button></main>; }
-export default Analytics;
->>>>>>> d3ffe8658e9a394c5e9be2a31a0e5a7666567270
