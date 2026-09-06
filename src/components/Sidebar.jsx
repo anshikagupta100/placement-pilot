@@ -31,23 +31,16 @@ export default function Sidebar({ admin = false }) {
 
   return (
     <aside className="dashboard-sidebar">
-      <button className="dashboard-brand" onClick={() => navigate(admin ? "/admin" : "/dashboard")}>
+      <div className="dashboard-brand" onClick={() => navigate(admin ? "/admin" : "/dashboard")} role="button" tabIndex={0} onKeyDown={(event) => event.key === "Enter" && navigate(admin ? "/admin" : "/dashboard")}>
         <span className="dashboard-brand-icon">✦</span>
         <span>PlacementPilot</span>
-      </button>
+      </div>
 
       <p className="sidebar-section-label">{admin ? "ADMIN PORTAL" : "STUDENT PORTAL"}</p>
 
       <nav className="dashboard-nav" aria-label="Main navigation">
         {links.map(([icon, label, path]) => (
-          <NavLink
-            key={path}
-            to={path}
-            end={path === "/dashboard" || path === "/admin"}
-            className={({ isActive }) =>
-              `dashboard-nav-item${isActive ? " active" : ""}`
-            }
-          >
+          <NavLink key={path} to={path} end={path === "/dashboard" || path === "/admin"} className={({ isActive }) => `dashboard-nav-item${isActive ? " active" : ""}`}>
             <span>{icon}</span>
             {label}
           </NavLink>
@@ -57,15 +50,9 @@ export default function Sidebar({ admin = false }) {
       <div className="dashboard-sidebar-bottom">
         <div className="dashboard-sidebar-tip">
           <span className="tip-icon">✦</span>
-          <div>
-            <strong>Quick tip</strong>
-            <p>Keep your profile and resume updated to improve your opportunities.</p>
-          </div>
+          <div><strong>Quick tip</strong><p>Keep your profile and resume updated to improve your opportunities.</p></div>
         </div>
-        <button className="dashboard-logout" onClick={logout}>
-          <span>↪</span>
-          Sign out
-        </button>
+        <button className="dashboard-logout" onClick={logout}><span>↪</span>Sign out</button>
       </div>
     </aside>
   );
