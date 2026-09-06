@@ -1,8 +1,12 @@
+<<<<<<< HEAD
 import { useEffect, useState } from "react";
+=======
+>>>>>>> d3ffe8658e9a394c5e9be2a31a0e5a7666567270
 import { useNavigate } from "react-router-dom";
 
 function Applications() {
   const navigate = useNavigate();
+<<<<<<< HEAD
 
   const [applications, setApplications] = useState(() => {
     return JSON.parse(localStorage.getItem("applications")) || [];
@@ -233,3 +237,9 @@ function Applications() {
 }
 
 export default Applications;
+=======
+  return <main className="dashboard-main"><h1>Applications</h1><p>Track your job applications here.</p><button onClick={() => navigate("/dashboard")}>Back to Dashboard</button></main>;
+}
+
+export default Applications;
+>>>>>>> d3ffe8658e9a394c5e9be2a31a0e5a7666567270

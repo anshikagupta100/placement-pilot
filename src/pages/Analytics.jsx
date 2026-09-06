@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+<<<<<<< HEAD
 
 function Analytics() {
   const navigate = useNavigate();
@@ -174,3 +175,7 @@ function Analytics() {
 }
 
 export default Analytics;
+=======
+function Analytics() { const navigate = useNavigate(); return <main className="dashboard-main"><h1>Analytics</h1><p>View your placement progress and insights.</p><button onClick={() => navigate("/dashboard")}>Back to Dashboard</button></main>; }
+export default Analytics;
+>>>>>>> d3ffe8658e9a394c5e9be2a31a0e5a7666567270

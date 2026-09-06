@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -222,3 +223,8 @@ function Preparation() {
 }
 
 export default Preparation;
+=======
+import { useNavigate } from "react-router-dom";
+function Preparation() { const navigate = useNavigate(); return <main className="dashboard-main"><h1>Preparation</h1><p>Plan and manage your placement preparation.</p><button onClick={() => navigate("/dashboard")}>Back to Dashboard</button></main>; }
+export default Preparation;
+>>>>>>> d3ffe8658e9a394c5e9be2a31a0e5a7666567270
