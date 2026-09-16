@@ -1,12 +1,5 @@
 import "./App.css";
-
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
-
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
@@ -20,20 +13,21 @@ import AdminJobs from "./pages/AdminJobs";
 import AdminUsers from "./pages/AdminUsers";
 import AdminAnalytics from "./pages/AdminAnalytics";
 import AdminSettings from "./pages/AdminSettings";
+import { getSession } from "./lib/auth";
 
 function ProtectedRoute({ children, role }) {
-  const loggedIn = localStorage.getItem("loggedIn") === "true";
-  const userRole = localStorage.getItem("role") || "user";
+  const location = useLocation();
+  const session = getSession();
 
-  if (!loggedIn) {
-    return <Navigate to="/login" replace />;
-  }
-
-  if (role && userRole !== role) {
-    return <Navigate to={userRole === "admin" ? "/admin" : "/dashboard"} replace />;
-  }
-
+  if (!session) return <Navigate to="/login" replace state={{ from: location.pathname }} />;
+  if (role && session.role !== role) return <Navigate to={session.role === "admin" ? "/admin" : "/dashboard"} replace />;
   return children;
+}
+
+function PublicOnly({ children }) {
+  const session = getSession();
+  if (!session) return children;
+  return <Navigate to={session.role === "admin" ? "/admin" : "/dashboard"} replace />;
 }
 
 function App() {
@@ -41,8 +35,8 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Navigate to="/login" replace />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<PublicOnly><Login /></PublicOnly>} />
+        <Route path="/register" element={<PublicOnly><Register /></PublicOnly>} />
 
         <Route path="/dashboard" element={<ProtectedRoute role="user"><Dashboard /></ProtectedRoute>} />
         <Route path="/applications" element={<ProtectedRoute role="user"><Applications /></ProtectedRoute>} />
@@ -57,10 +51,9 @@ function App() {
         <Route path="/admin/analytics" element={<ProtectedRoute role="admin"><AdminAnalytics /></ProtectedRoute>} />
         <Route path="/admin/settings" element={<ProtectedRoute role="admin"><AdminSettings /></ProtectedRoute>} />
 
-        <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </BrowserRouter>
   );
 }
-
 export default App;
